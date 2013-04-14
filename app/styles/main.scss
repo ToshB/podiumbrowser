@@ -1,1 +1,25 @@
 @import "compass_twitter_bootstrap";
+$sidebar-width : 300px;
+html, body {
+  height: 100%;
+}
+body > .container-fluid {
+  height: 100%;
+}
+.container-fluid > .sidebar {
+    width: $sidebar-width; /* width of sidebar */
+    float: left;
+    height: 100%;
+    background-color: green;
+    outline: 1px solid black;
+}
+
+.container-fluid > .content {
+    margin: 0 0 0 $sidebar-width*2; /* width of sidebars + 10px of margin */
+    height: 100%;
+}
+
+iframe {
+  width: 100%;
+  height: 100%;
+}
