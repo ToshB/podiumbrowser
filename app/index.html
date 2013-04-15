@@ -23,7 +23,12 @@
       <![endif]-->
 
       <!-- Add your site or application content here -->
-      <div class="container-fluid" ng-controller="MainCtrl">
+      <div class="container-fluid">
+      <ng-view></ng-view>
+
+      </div>
+
+      <script type="text/ng-template" id="navigation-template.html">
         <div class="navigation" stick-right="levels">
           <ul class="levels">
             <li class="left" ng-repeat="level in levels">
@@ -31,7 +36,7 @@
                 <li ng-repeat="link in level.links" ng-class="{active: link == level.selectedLink}">
                     <a href="#" ng-click="selectLink(level, $parent.$index, link)">
                       {{ link.written | nobreak }}
-                      <i ng-show="link.isContent" class="icon-play pull-right"></i>
+                      <i ng-show="!link.isContent" class="icon-play pull-right"></i>
                     </a>
 
                 </li>
@@ -42,8 +47,7 @@
         <div class="content">
           <iframe width="100%" height="100%" frameborder="0" ng-src="{{contentUrl}}"></iframe>
         </div>
-      </div>
-
+      </script>
       <script src="components/angular/angular.js"></script>
 
 
@@ -52,3 +56,4 @@
       <!-- endbuild -->
     </body>
     </html>
+

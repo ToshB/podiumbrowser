@@ -4,6 +4,12 @@ app = angular.module 'podiumMenu', []
 app.config ($httpProvider) ->
   delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
+app.config ($locationProvider, $routeProvider) ->
+  $locationProvider.html5Mode true
+  $routeProvider.when null,
+    templateUrl: 'navigation-template.html',
+    controller: 'MainCtrl'
+
 app.filter 'nobreak', ->
   (text) ->
     text.replace('<br>', ' ')
@@ -12,7 +18,7 @@ app.directive 'stickRight', ->
   return (scope, elem, attr) ->
     scrollRight = ->
       children = elem.children().children()
-      children[children.length-1].scrollIntoView()
+      children[children.length-1]?.scrollIntoView()
       # originalValue = elem.css('scrollLeft')
       # console.log(originalValue);
       # elem.css('scrollLeft', originalValue?0 + 30)
@@ -31,11 +37,14 @@ app.factory 'MenuData', ($http) ->
 
   return MenuData
 
-app.controller 'MainCtrl', ($scope, MenuData) ->
-  $scope.levels = [MenuData.get('http://podium.gyldendal.no/Resources/salaby/MenuJson/6cdf5969-cd8e-4c15-9b03-a00b00f3b1dd')]
+app.controller 'MainCtrl', ($scope, $location, MenuData) ->
+  #?menujson=http://gnfwebtst02/PodiumSiteTest/Resources/toshtest/MenuJson/5d564fb6-d574-4977-b26e-a1a100a48714
+  menujson = $location.search().menujson
+  alert "No menujson" if not menujson
+  $scope.levels = [MenuData.get(menujson)]
   $scope.selectLink = (level, index, link) ->
     level.selectedLink = link
     $scope.levels.splice index + 1
-    $scope.contentUrl = 'http://podium.gyldendal.no/' + link.uri if link.isContent
+    $scope.contentUrl = 'http://gnfwebtst02' + link.uri if link.isContent
     $scope.levels.push MenuData.get(link.menudata.uri) if not link.isContent
 
