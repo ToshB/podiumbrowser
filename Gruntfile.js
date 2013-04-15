@@ -43,6 +43,18 @@ module.exports = function (grunt) {
         tasks: ['livereload']
       }
     },
+    compress: {
+      dist: {
+        options: {
+          archive: 'build/podiumcontent.zip',
+          mode: 'zip'
+        },
+        files: [
+          {src: ['dist/**'], dest: 'test/'}
+          // {expand: true, cwd: 'dist/', src: ['**'], dest: '/'}
+        ]
+      }
+    },
     connect: {
       options: {
         port: 9000,
@@ -132,7 +144,7 @@ module.exports = function (grunt) {
         javascriptsDir: '<%= yeoman.app %>/scripts',
         fontsDir: '<%= yeoman.app %>/styles/fonts',
         importPath: '<%= yeoman.app %>/components',
-        relativeAssets: true
+        relativeAssets: false
       },
       dist: {},
       server: {
@@ -282,7 +294,7 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'clean:dist',
     'jshint',
-    'test',
+    //'test',
     'coffee',
     'compass:dist',
     'useminPrepare',
@@ -295,7 +307,8 @@ module.exports = function (grunt) {
     'ngmin',
     'uglify',
     'rev',
-    'usemin'
+    'usemin',
+    'compress'
   ]);
 
   grunt.registerTask('default', ['build']);

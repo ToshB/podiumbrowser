@@ -12,7 +12,7 @@
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
   <link rel="stylesheet" href="styles/main.css">
 </head>
-<body>
+<body ng-app="podiumMenu">
     <!--[if lt IE 7]>
       <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
       <![endif]-->
@@ -23,42 +23,32 @@
       <![endif]-->
 
       <!-- Add your site or application content here -->
-      <div class="container-fluid" ng-app="angulartestApp" ng-controller="MainCtrl">
-        <div class="sidebar left">
-          <ul class="unstyled">
-            <li ng-repeat="link in data.root.links" ng-click="selectFirstLevel(link)">
-              {{link.key}} <span ng-show="link.isContent">(Innhold)</span> <span ng-show="link == data.rootSelection">selected</span>
-            </li>
-          </ul>
-        </div>
-        <div class="sidebar left">
-          <ul class="unstyled">
-            <li ng-repeat="link in data.firstLevel.links" ng-click="selectSecondLevel(link)">
-              {{link.key}} <span ng-show="link.isContent">(Innhold)</span>
+      <div class="container-fluid" ng-controller="MainCtrl">
+        <div class="navigation" stick-right="levels">
+          <ul class="levels">
+            <li class="left" ng-repeat="level in levels">
+              <ul class="links nav nav-list">
+                <li ng-repeat="link in level.links" ng-class="{active: link == level.selectedLink}">
+                    <a href="#" ng-click="selectLink(level, $parent.$index, link)">
+                      {{ link.written | nobreak }}
+                      <i ng-show="link.isContent" class="icon-play pull-right"></i>
+                    </a>
+
+                </li>
+              </ul>
             </li>
           </ul>
         </div>
         <div class="content">
-          <iframe ng-src="{{data.contentUrl}}"></iframe>
+          <iframe width="100%" height="100%" frameborder="0" ng-src="{{contentUrl}}"></iframe>
         </div>
       </div>
 
       <script src="components/angular/angular.js"></script>
-      <script src="components/angular-resource/angular-resource.js"></script>
-      <script src="components/angular-cookies/angular-cookies.js"></script>
-      <script src="components/angular-sanitize/angular-sanitize.js"></script>
 
-      <!-- build:js scripts/scripts.js -->
+
+      <!-- build:js(.tmp) scripts/scripts.js -->
       <script src="scripts/app.js"></script>
-      <!--script src="scripts/controllers/main.js"></script-->
       <!-- endbuild -->
-
-      <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-      <script>
-      var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-      (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-        g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-        s.parentNode.insertBefore(g,s)}(document,'script'));
-      </script>
     </body>
     </html>
